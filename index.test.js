@@ -14,9 +14,9 @@ describe('Band, Musician, and Song Models', () => {
 
     test('can create a Band', async () => {
         // TODO - test creating a band
-        await Band.create({name:"test band",genre:"test genre"})
+        await Band.create({name:"test band",genre:"test genre",showCount:3})
         const bands = await Band.findAll()
-        expect(bands[0]).toEqual(expect.objectContaining({name:"test band",genre:"test genre"}));
+        expect(bands[0]).toEqual(expect.objectContaining({name:"test band",genre:"test genre",showCount:3}));
     })
 
     test('can create a Musician', async () => {
@@ -32,7 +32,7 @@ describe('Band, Musician, and Song Models', () => {
     })
 
     test('can update a Band', async () => {
-        const band = await Band.create({name:"test band 2",genre:"test genre"})
+        const band = await Band.create({name:"test band 2",genre:"test genre",showCount:2})
         await band.update({
             name: "test 2"
         })
@@ -56,7 +56,7 @@ describe('Band, Musician, and Song Models', () => {
     })
 
     test('can delete a Band', async () => {
-        const band = await Band.create({name:"test band 3",genre:"test genre"})
+        const band = await Band.create({name:"test band 3",genre:"test genre",showCount:1})
         await band.destroy()
         const findBand = await Band.findAll({
             where: {
