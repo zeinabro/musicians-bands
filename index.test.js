@@ -25,6 +25,12 @@ describe('Band, Musician, and Song Models', () => {
         expect(musicians[0]).toEqual(expect.objectContaining({name:"test musician",instrument:"test instrument"}));
     })
 
+    test('can create a Song', async () => {
+        await Song.create({title:"test song",year:2024,length:3})
+        const songs = await Song.findAll()
+        expect(songs[0]).toEqual(expect.objectContaining({title:"test song",year:2024,length:3}));
+    })
+
     test('can update a Band', async () => {
         const band = await Band.create({name:"test band 2",genre:"test genre"})
         await band.update({
@@ -39,6 +45,14 @@ describe('Band, Musician, and Song Models', () => {
             name: "test 2"
         })
         expect(musician.name).toBe("test 2")
+    })
+
+    test('can update a Song', async () => {
+        const song = await Song.create({title:"test song 2",year:2024,length:3})
+        await song.update({
+            title: "test 2"
+        })
+        expect(song.title).toBe("test 2")
     })
 
     test('can delete a Band', async () => {
@@ -61,5 +75,16 @@ describe('Band, Musician, and Song Models', () => {
             }
         })
         expect(findMusician[0]).toBe(undefined);
+    })
+
+    test('can delete a Song', async () => {
+        const song = await Song.create({title:"test song 3",year:2024,length:3})
+        await song.destroy()
+        const findSong = await Song.findAll({
+            where: {
+                title: "test song 3"
+            }
+        })
+        expect(findSong[0]).toBe(undefined);
     })
 })
