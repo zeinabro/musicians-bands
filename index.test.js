@@ -100,4 +100,31 @@ describe('Band, Musician, and Song Models', () => {
         const bandsMusicians = await band.getMusicians()
         expect(bandsMusicians[1] instanceof Musician).toBeTruthy()
     })
+
+    test("Band can have multiple songs", async() => {
+        const band = await Band.create({name:"test band 5",genre:"test genre",showCount:3})
+        const songs = await Song.bulkCreate(
+            [{title:"song 1",year:2024,length:3},
+            {title:"song 2",year:2024,length:3},
+            {title:"song 3",year:2024,length:3}
+            ]
+        )
+        await band.addSongs(songs)
+        const bandsSongs = await band.getSongs()
+        expect(bandsSongs[1] instanceof Song).toBeTruthy()
+    })
+
+    test("Song can have multiple bands", async() => {
+        const song = await Song.create({title:"test song 5",year:2024,length:3})
+        const bands = await Band.bulkCreate(
+            [
+            {name:"band 1",genre:"test genre",showCount:3},
+            {name:"band 2",genre:"test genre",showCount:3},
+            {name:"band 3",genre:"test genre",showCount:3}
+            ]
+        )
+        await song.addBands(bands)
+        const songsBands = await song.getBands()
+        expect(songsBands[1] instanceof Band).toBeTruthy()
+    })
 })
