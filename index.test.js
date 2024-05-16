@@ -87,4 +87,17 @@ describe('Band, Musician, and Song Models', () => {
         })
         expect(findSong[0]).toBe(undefined);
     })
+
+    test("Band can have multiple musicians", async() => {
+        const band = await Band.create({name:"test band 4",genre:"test genre",showCount:3})
+        const musicians = await Musician.bulkCreate(
+            [{name:"musician 1",instrument:"test instrument"},
+            {name:"musician 2",instrument:"test instrument"},
+            {name:"musician 3",instrument:"test instrument"}
+            ]
+        ) 
+        await band.addMusicians(musicians)
+        const bandsMusicians = await band.getMusicians()
+        expect(bandsMusicians[1] instanceof Musician).toBeTruthy()
+    })
 })
